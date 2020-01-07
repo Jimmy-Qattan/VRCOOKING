@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.1/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    
+    <title>VR Cooking Game!</title>
+    
+    <a-scene id="scene">
+      <a-camera id="camera1">
+        <a-cursor id="cursor"></a-cursor>
+      </a-camera>
+      
+      <a-box static-body id="floor" position="0 -5 -5" scale="1000 1 1000" src="data:image/jpeg;base64,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"></a-box>
+      <a-sky src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fidiotsandwitch.jpeg?v=1578092102787" repeating="true"></a-sky>
+      
+      
+      
+      
+      <a-box position="-1 -5 -10" color="black" id="stoveLeg1" scale="3 5 2"></a-box>
+      <a-box position="2 -5 -10" color="black" id="stoveLeg2" scale="3 5 2"></a-box>
+      <a-box position="-1 -5 -8" color="black" id="stoveLeg3" scale="3 5 2"></a-box>
+      <a-box position="2 -5 -8" color="black" id="stoveLeg4" scale="3 5 2"></a-box>
+      
+      <a-box position="0.5 -2.5 -9" color="gray" id="stovePieceAboveLegs" scale="4 0.1 3"></a-box>
+
+      <a-box position="0.5 -0.8 -10" color="green" id="heatChanger" scale="4.3 3 0.5"></a-box>
+      
+      
+      
+      <a-box id="water" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fwater.jpeg?v=1578003158226" position="5 -1.5 -6" scale="0.5 1 0.5"></a-box>
+      <a-text value="Water" width="10" height="10" color="blue" position="4.6 -0.5 -6"></a-text>
+      
+      <a-box static-body id="table" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fwood.jpeg?v=1578003385384" position="5 -3 -5" scale="2 2 10"></a-box>
+      <a-box static-body id="table2" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fwood.jpeg?v=1578003385384" position="-5 -3 -5" scale="2 2 10"></a-box>
+
+      
+      <a-box id="ricePlate" visible="false" color="black" position="-5 -2 -5" scale="1 0.2 1"></a-box>
+      <a-box id="goodRice" visible="false" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fwellcookedrice.jpeg?v=1578009408826" position="-5 -2 -5" scale="0.5 0.6 0.5"></a-box>
+      <a-text id="goodRiceText" visible="false" value="Excellent Work! Good Rice!" width="10" height="10" position="-5 0 -5" color="blue"></a-text>
+      
+      <a-box id="undercookedRice" visible="false" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2FrawRice.jpeg?v=1578007608829" position="-5 -2 -5" scale="0.5 0.6 0.5"></a-box>
+      <a-text id="undercookedRiceText" visible="false" value="Undercooked Rice! Wait Longer While Cooking!" width="10" height="10" position="-5 0 -5" color="red"></a-text>
+
+      
+      
+      
+      <a-box id="rice" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2FrawRice.jpeg?v=1578007608829" position="5 -1.5 -7" scale="0.5 1 0.5"></a-box>
+      <a-text value="Rice" width="10" height="10" color="blue" position="4.6 -0.5 -7"></a-text>
+      
+      
+      
+      
+      <a-box position="-0.5 0.4 -9.5" color="red" id="temp1Knob" scale="0.1 0.3 0.2"></a-box>
+      <a-text position="-0.7 0 -9.5" value="0" color="blue" id="temp1Text"></a-text>
+      
+      <a-box position="1 0.4 -9.5" color="red" id="temp2Knob" scale="0.1 0.3 0.2"></a-box>
+      <a-text position="0.8 0 -9.5" value="0" color="blue" id="temp2Text"></a-text>
+      
+      <a-box position="-0.5 -0.5 -9.5" color="red" id="temp3Knob" scale="0.1 0.3 0.2"></a-box>
+      <a-text position="-0.7 -0.9 -9.5" value="0" color="blue" id="temp3Text"></a-text>
+      
+      <a-box position="1 -0.5 -9.5" color="red" id="temp4Knob" scale="0.1 0.3 0.2"></a-box>
+      <a-text position="0.8 -0.9 -9.5" value="0" color="blue" id="temp4Text"></a-text>
+      
+      <a-circle id="cookingSurface1" radius="0.5" color="white" position="-0.5 -2 -9" rotation="-90 0 0"></a-circle>
+      <a-circle id="cookingSurface2" radius="0.5" color="white" position="1.5 -2 -9" rotation="-90 0 0"></a-circle>
+      <a-circle id="cookingSurface3" radius="0.5" color="white" position="-0.5 -2 -7.6" rotation="-90 0 0"></a-circle>
+      <a-circle id="cookingSurface4" radius="0.5" color="white" position="1.5 -2 -7.6" rotation="-90 0 0"></a-circle>
+      
+      
+      
+      
+      
+      
+      
+      
+      <a-box id="panHandle1" position="5 -2 -5" color="blue" scale="1 0.2 0.2"></a-box>
+      <a-cylinder id="panHead1" color="red" position="5.5 -2 -5" radius="0.4" height="0.4"></a-cylinder>
+      
+      
+      
+      
+      
+      
+      <a-box id="knife" position="-4.5 -1.5 -3" color="gray" scale="0.7 0.3 0.05">
+        <a-box color="black" scale="0.7 0.2 0.3" position="0.7 0.4 0"></a-box>
+      </a-box>
+      
+      
+      
+      
+      
+      <a-text id="cucumberText" value="Cucumber" width="10" height="10" color="green" position="-5 0 -1" rotation="0 45 0"></a-text>
+      <a-box id="cucumber" color="green" scale="0.15 0.15 0.6" position="-4.5 -1.5 -2"></a-box>
+      <a-box id="cucumber2" visible="false" color="green" scale="0.2 0.2 0.8" position="-4 -1.5 -1"></a-box>
+       
+      
+      <a-text id="tomatoeText" value="Tomatoe" width="10" height="10" color="red" position="-5 0 0" rotation="0 45 0"></a-text>
+      <a-sphere id="tomatoe" color="red" radius="0.2" position="-4.5 -1.5 -1"></a-sphere>
+      
+      
+      
+      <a-box data-tomatoe-cut="true" visible="false" id="tomatoe1Cut" position="-4.7 -1.5 -1" scale="0.1 0.3 0.2" color="red" rotation="0 0 90"></a-box>
+      <a-box data-tomatoe-cut="true" visible="false" id="tomatoe2Cut" position="-4.3 -1.4 -1" scale="0.1 0.3 0.2" color="red" rotation="0 0 90"></a-box>
+      <a-box data-tomatoe-cut="true" visible="false" id="tomatoe3Cut" position="-4.6 -1.3 -1" scale="0.1 0.3 0.2" color="red" rotation="0 0 90"></a-box>
+      <a-box data-tomatoe-cut="true" visible="false" id="tomatoe4Cut" position="-4.4 -1.2 -1" scale="0.1 0.3 0.2" color="red" rotation="0 0 90"></a-box>
+      
+      
+      
+      
+      
+      
+      
+      <a-text id="saltText" position="-4.8 0 -8" width="10" height="10" color="yellow" value="Salt"></a-text>
+      <a-box id="salt" position="-4.5 -1.5 -8" scale="0.2 0.4 0.2" src="https://cdn.glitch.com/98c9057d-82df-4893-8c2a-3ee04876a39f%2Fsaltshaker.jpeg?v=1578092746760"></a-box>
+      
+      <a-text id="HowRice" value="Put Pot on stove. \n Add Rice. \n Add Water. \n Set temperature to 225°. \n Add Salt. \n Add Vegetables. (Optional) \n Wait..." width="50" height="50" color="red" position="-20 15 -10" rotation="0 30 0"></a-text>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </a-scene>
+    
+    
+    
+    
+    <script>
+      
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script>
+      
+      
+      var salt = document.getElementById("salt");
+      
+      var saltAdded = false;
+      
+      
+      
+      
+      
+      salt.addEventListener("click", function() {
+        saltAdded = true;
+        salt.setAttribute("animation", "property: object3D.position.y; to: 0; dur: 1000; loop: false;");
+        
+        setTimeout(function() {
+          salt.setAttribute("animation", "property: object3D.position.x; to: -0.7; loop: false; dur: 1000");
+          
+          setTimeout(function() {
+            salt.setAttribute("animation", "property: object3D.rotation.z; to: -130; dir: alternate; dur: 200; easing: linear");
+            
+            setTimeout(function() {
+              salt.setAttribute("animation", "property: object3D.rotation.z; to: 0; dir: alternate; dur: 200; easing: linear");
+              
+              setTimeout(function() {
+                salt.setAttribute("animation", "property: object3D.position.x; to: -4.5; loop: false; dur: 1000");
+                
+                setTimeout(function() {
+                  salt.setAttribute("animation", "property: object3D.position.y; to: -1.5; loop: false; dur: 1000");
+                }, 1000)
+              }, 1000);
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      });
+      
+      
+      
+      
+      
+      var knifeCutting = false;
+      
+      var knife = document.getElementById("knife");
+      
+      
+      
+      knife.addEventListener("click", function() {
+        if (knifeCutting == false) {
+          knife.setAttribute("animation", "property: object3D.rotation.z; to: -50; loop: true; dur: 200; easing: linear; dir: alternate;");
+          knifeCutting = true;
+        } else if (knifeCutting == true) {
+          knife.removeAttribute("animation");
+          knifeCutting = false;
+        };
+      });
+      
+      var cucumber = document.getElementById("cucumber");
+      var cucumber2Cut = document.getElementById("cucumber2");
+      
+      var cucumberIsCut = false;
+      
+      cucumber.addEventListener("click", function() {
+        cucumberIsCut = true;
+        
+        cucumber.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        cucumber2Cut.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        if (knifeCutting == true) {
+          /*setTimeout(function() {
+            cucumber2Cut.setAttribute("visible", "true");
+            cucumber.setAttribute("scale", {x: 0.1, y: 0.1, z: 0.4});
+            cucumber2.setAttribute("scale", {x: 0.1, y: 0.1, z: 0.4});
+            cucumber2Cut.setAttribute("visible", "true");
+            setTimeout(function() {
+              cucumber.setAttribute("position", {x: -4.5, y: -1.5,z: -3});
+              cucumber2Cut.setAttribute("position", {x: -4.5, y: -1.5,z: -3});
+            }, 1000);
+          }, 3000);
+          */
+          
+          setTimeout(function() {
+            cucumber.setAttribute("scale", {x: 0.1, y: 0.1, z: 0.4});
+            cucumber2.setAttribute("scale", {x: 0.1, y: 0.1, z: 0.4});
+            cucumber2Cut.setAttribute("visible", "true");
+          }, 1000);
+          
+          setTimeout(function() {
+            cucumber.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+            cucumber2Cut.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+          }, 1000);           
+        };
+      });
+      
+      
+      
+      
+      
+      
+      
+      var tomatoe = document.getElementById("tomatoe");
+      var tomatoePieces = document.querySelectorAll("[data-tomatoe-cut]");
+      var tomatoeIsCut = false;
+      
+      var tomatoe1Cut = document.getElementById("tomatoe1Cut");
+      var tomatoe2Cut = document.getElementById("tomatoe2Cut");
+      var tomatoe3Cut = document.getElementById("tomatoe3Cut");
+      var tomatoe4Cut = document.getElementById("tomatoe4Cut");
+      
+      
+      tomatoe.addEventListener("click", function() {
+        tomatoeIsCut = true;
+        tomatoe1Cut.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        tomatoe2Cut.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        tomatoe3Cut.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        tomatoe4Cut.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        tomatoe.setAttribute("animation", "property: object3D.position.z; to: -3; dur: 1000; loop: false;");
+        if (knifeCutting == true) {        
+          
+          setTimeout(function() {
+            tomatoe1Cut.setAttribute("visible", "true");
+            tomatoe2Cut.setAttribute("visible", "true");
+            tomatoe3Cut.setAttribute("visible", "true");
+            tomatoe4Cut.setAttribute("visible", "true");
+            tomatoe.setAttribute("visible", "false");
+          }, 1000);
+          
+            
+          
+          setTimeout(function() {
+            tomatoe1Cut.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+            tomatoe2Cut.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+            tomatoe3Cut.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+            tomatoe4Cut.setAttribute("animation", "property: object3D.position.z; to: -5; dur: 1000; loop: false;");
+          }, 1000);
+          
+        };
+      });
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </script>
+    
+  </head>
+  
+  <body>
+    
+    <script>
+      var cookingSurface1 = document.getElementById("cookingSurface1");
+      var cookingSurface2 = document.getElementById("cookingSurface2");
+      var cookingSurface3 = document.getElementById("cookingSurface3");
+      var cookingSurface4 = document.getElementById("cookingSurface4");
+      
+      
+      
+      var potColor = prompt("What color do you want your pot to be when cooking rice? Enter a Color...");
+      
+      
+      
+      var cookingTime1 = 0;
+      
+      
+      var riceAdded = false;
+      var rice = document.getElementById("rice");
+      var undercookedRice = document.getElementById("undercookedRice");
+      var ricePlate = document.getElementById("ricePlate");
+      
+      
+      var waterAdded = false;
+      
+      
+      var panOnStove = false;
+      var stove1Heating = false;
+      var stove2Heating = false;
+      var stove3Heating = false;
+      var stove4Heating = false;
+      
+      
+      var temp1Text = document.getElementById("temp1Text");
+      var temp1 = 0;
+      var temp2 = 0;
+      var temp3 = 0;
+      var temp4 = 0;
+      
+      var canCookRice = false;
+      var canCookFish = false;
+      
+      var turns1 = 0;
+      var turns2 = 0;
+      var turns3 = 0;
+      var turns4 = 0;
+      
+      var temp1Knob = document.getElementById("temp1Knob");
+      var temp1KnobRotation = 0;
+      
+      var temp2knob = document.getElementById("temp2Knob");
+      var temp2KnobRotation = 0;
+      
+      var temp3knob = document.getElementById("temp3Knob");
+      var temp3KnobRotation = 0;
+      
+      var temp4knob = document.getElementById("temp4Knob");
+      var temp4KnobRotation = 0;
+      
+      temp1Knob.addEventListener("click", function() {
+        temp1KnobRotation -= 45;
+        temp1 += 75;
+        turns1 += 1;
+        
+        if (turns1 <= 8) {
+          temp1Knob.setAttribute("animation", `property: object3D.rotation.z; to: ${temp1KnobRotation}; easing: linear; loop: false; dur: 100;`);
+          temp1Text.setAttribute("value", `${temp1}`)
+        };
+        
+        if (turns1 > 2) {
+          setInterval(function() {
+            var opacity = 0.5;
+            cookingSurface1.setAttribute("color", "#8b0000");
+            cookingSurface1.setAttribute("material", `opacity: ${opacity}; transparent: false;`);
+            opacity += 0.05;
+            stove1Heating = true;
+          }, 100);
+        };
+        
+        
+      });
+      
+      temp2Knob.addEventListener("click", function() {
+        temp2KnobRotation -= 45;
+        temp2 += 75;
+        turns2 += 1;
+        
+        if (turns2 <= 8) {
+          temp2Knob.setAttribute("animation", `property: object3D.rotation.z; to: ${temp2KnobRotation}; easing: linear; loop: false; dur: 100;`);
+          temp2Text.setAttribute("value", `${temp2}`)
+        };
+        
+        if (turns2 > 2) {
+          setInterval(function() {
+            var opacity = 0.5;
+            cookingSurface2.setAttribute("color", "#8b0000");
+            cookingSurface2.setAttribute("material", `opacity: ${opacity}; transparent: false;`);
+            opacity += 0.05;
+            stive2Heating = true;
+          }, 100);
+        };
+        
+        
+      });
+      
+      temp3Knob.addEventListener("click", function() {
+        temp3KnobRotation -= 45;
+        temp3 += 75;
+        turns3 += 1;
+        
+        if (turns3 <= 8) {
+          temp3Knob.setAttribute("animation", `property: object3D.rotation.z; to: ${temp3KnobRotation}; easing: linear; loop: false; dur: 100;`);
+          temp3Text.setAttribute("value", `${temp3}`)
+        };
+        
+        if (turns3 > 2) {
+          setInterval(function() {
+            var opacity = 0.5;
+            cookingSurface3.setAttribute("color", "#8b0000");
+            cookingSurface3.setAttribute("material", `opacity: ${opacity}; transparent: false;`);
+            opacity += 0.05;
+            stove3Heating = true;
+          }, 100);
+        };
+        
+        
+      });
+      
+      temp4Knob.addEventListener("click", function() {
+        temp4KnobRotation -= 45;
+        temp4 += 75;
+        turns4 += 1;
+        
+        if (turns4 <= 8) {
+          temp4Knob.setAttribute("animation", `property: object3D.rotation.z; to: ${temp4KnobRotation}; easing: linear; loop: false; dur: 100;`);
+          temp4Text.setAttribute("value", `${temp4}`)
+        };
+        
+        if (turns4 > 2) {
+          setInterval(function() {
+            var opacity = 0.5;
+            cookingSurface4.setAttribute("color", "#8b0000");
+            cookingSurface4.setAttribute("material", `opacity: ${opacity}; transparent: false;`);
+            opacity += 0.05;
+            var stove4Heating = true;
+          }, 100);
+        };
+        
+        
+      });
+      
+      
+      
+      
+      
+      var panHandle1 = document.getElementById("panHandle1");
+      var panHead1 = document.getElementById("panHead1");
+      panHead1.setAttribute("color", `${potColor}`);
+      
+      
+      var topLeftPanTaken = false;
+      var topRightPanTaken = false;
+      var bottomLeftPanTaken = false;
+      var bottomRightPanTaken = false;
+      
+      var water = document.getElementById("water");
+      
+      
+      panHead1.addEventListener("click", function() {
+        pan1Clicked = true;
+        panOnStove = true;
+        if (topLeftPanTaken == false /* && topRightPanTaken == false && bottomLeftPanTaken == false && bottomRightPanTaken == false */) {
+          topLeftPanTaken = true;      
+          panHandle1.setAttribute("animation", "property: object3D.position.x; to: -0.8; easing: linear; loop: false; dur: 1000");
+          panHead1.setAttribute("animation", "property: object3D.position.x; to: -0.5; easing: linear; loop: false; dur: 1000");
+          setTimeout(function() {
+            panHandle1.setAttribute("animation", "property: object3D.position.z; to: -9; easing: linear; loop: false; dur: 1000");
+            panHead1.setAttribute("animation", "property: object3D.position.z; to: -9; easing: linear; loop: false; dur: 1000");
+          }, 1500);        
+        };
+        if (panOnStove == true && topLeftPanTaken == true && stove1Heating == true && riceAdded == true && waterAdded == true && saltAdded == true) {
+          setInterval(function() {
+            cookingTime1 += 1;
+          }, 1000);
+        };    
+      });
+      
+      water.addEventListener("click", function() {
+        if (panOnStove == true) {
+          water.setAttribute("position", {x:-0.4, y:-1.5, z:-9});
+          water.setAttribute("animation", "property: object3D.rotation.z; to: 135; dur: 750; loop: false;")
+          setTimeout(function() {
+            water.setAttribute("visible" , "false");
+            waterAdded = true;
+          }, 2000);
+        };
+      });
+      
+      
+      rice.addEventListener("click", function() {
+        riceAdded = true;
+        if (panOnStove == true) {
+          rice.setAttribute("position", {x:-0.4,y:-1.5,z:-9});
+          rice.addEventListener("click", function() {
+            rice.setAttribute("animation", "property: object3D.rotation.z; to: 135; loop: false; dur: 1000;");
+            setTimeout(function() {
+              rice.setAttribute("visible", "false");
+            }, 3000);
+          });
+        };
+      });
+      
+
+      var undercookedRiceText = document.getElementById("undercookedRiceText");
+      var goodRiceText = document.getElementById("goodRiceText");
+      
+      
+      setInterval(function() {
+        // panHead1.addEventListener("click", function() {
+          // clearInterval(cookingTimeUp);
+        /*if (cookingTime1 <= 10 && cookingTime1 > 0) {
+          panHead1.addEventListener("click", function() {
+            panOnStove = false;
+            ricePlate.setAttribute("visible", "true");
+            undercookedRice.setAttribute("visible", "true");
+            undercookedRiceText.setAttribute("visible", "true");
+            setInterval(function() {
+              cookingTime1 -= 1;
+            }, 1000);
+          })
+        } else if (cookingTime1 >= 20) {
+          panHead1.addEventListener("click", function() {
+            panOnStove = false;
+            ricePlate.setAttribute("visible", "true");
+            goodRice.setAttribute("visible", "true");
+            goodRiceText.setAttribute("visible", "true");
+            
+          })
+        } */
+        
+        if (cookingTime1 >= 20) {
+          panOnStove = false;
+          ricePlate.setAttribute("visible", "true");
+          goodRice.setAttribute("visible", "true");
+          goodRiceText.setAttribute("visible", "true");
+        }
+      }, 1000)
+      
+      
+      
+      
+      
+      
+        /*if (panOnStove == true && topLeftPanTaken == true && stove1Heating == true) {
+          setInterval(function() {
+            cookingTime1 += 1;
+            console.log(cookingTime1);
+          }, 1000);
+        };
+      
+      
+      
+      setInterval(function() {
+        
+      }, 1000)
+      */
+      
+      
+      
+      
+      
+      setInterval(function() {
+        if (cookingTime1 >= 20) {
+          panOnStove = false;
+          ricePlate.setAttribute("visible", "true");
+          goodRice.setAttribute("visible", "true");
+          goodRiceText.setAttribute("visible", "true");
+        };
+      }, 1000);
+      
+      
+      // -0.7 0 
+      
+      
+      
+      
+      
+      
+      
+    </script>
+  </body>
+</html>
